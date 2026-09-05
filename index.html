@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#07070a" />
+  <meta name="description" content="Portfolio de Miguel Caraballo — Software Developer Jr. Backend, sistemas y agentes de IA." />
+  <title>Miguel Caraballo — Software Developer Jr.</title>
+  <style>
+    :root {
+      --bg: #07070a;
+      --panel: #0d0d12;
+      --panel-2: #111118;
+      --line: #252531;
+      --line-soft: rgba(255,255,255,.08);
+      --text: #f5f5f7;
+      --muted: #9a9aa7;
+      --violet: #8b5cf6;
+      --violet-2: #a78bfa;
+      --green: #73e2a7;
+      --shadow: 0 24px 80px rgba(0,0,0,.48);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100svh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 78% 18%, rgba(124,58,237,.16), transparent 27rem),
+        radial-gradient(circle at 20% 85%, rgba(124,58,237,.07), transparent 30rem),
+        var(--bg);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .24;
+      background-image:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+
+    a { color: inherit; }
+    button { font: inherit; }
+
+    .shell {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 28px 0 24px;
+    }
+
+    .terminal {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(15,15,21,.94), rgba(8,8,12,.96));
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.035);
+      overflow: hidden;
+    }
+
+    .topbar {
+      height: 54px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line-soft);
+      background: rgba(255,255,255,.018);
+    }
+
+    .brand {
+      color: #d8d8df;
+      font-size: 13px;
+      letter-spacing: -.02em;
+    }
+
+    .brand .prompt { color: var(--violet-2); }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #dfece5;
+      padding: 7px 10px;
+      border: 1px solid rgba(115,226,167,.2);
+      border-radius: 999px;
+      background: rgba(115,226,167,.055);
+      font-size: 11px;
+      letter-spacing: .06em;
+      text-transform: lowercase;
+    }
+
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 14px rgba(115,226,167,.7);
+      animation: blink 2.2s ease-in-out infinite;
+    }
+
+    @keyframes blink { 50% { opacity: .35; } }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(290px, .65fr);
+      gap: 44px;
+      min-height: 470px;
+      align-items: center;
+      padding: 54px 58px 40px;
+    }
+
+    .cmd {
+      margin-bottom: 26px;
+      color: #c4c4cf;
+      font-size: 14px;
+    }
+    .cmd .user { color: var(--violet-2); }
+    .cmd .dollar { color: #737382; margin: 0 7px 0 3px; }
+
+    .role {
+      margin: 0 0 12px;
+      color: var(--violet-2);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .18em;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(44px, 6vw, 78px);
+      line-height: .96;
+      letter-spacing: -.055em;
+      font-weight: 770;
+    }
+
+    .lead {
+      max-width: 720px;
+      margin: 24px 0 26px;
+      color: #b8b8c3;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(16px, 1.5vw, 19px);
+      line-height: 1.58;
+    }
+
+    .facts {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 30px;
+      color: #b3b3bf;
+      font-size: 13px;
+    }
+
+    .facts div { display: flex; gap: 10px; flex-wrap: wrap; }
+    .facts span:first-child { color: #6f6f7b; width: 78px; }
+    .facts strong { color: #dedee5; font-weight: 500; }
+
+    .actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 11px;
+      border: 1px solid var(--line);
+      background: #101016;
+      color: #e6e6eb;
+      text-decoration: none;
+      font-size: 12px;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .btn:hover { transform: translateY(-2px); border-color: #3d3d4d; background: #15151d; }
+    .btn.primary { color: white; border-color: rgba(139,92,246,.58); background: linear-gradient(180deg,#8053ee,#6d3de2); box-shadow: 0 10px 30px rgba(124,58,237,.2); }
+    .btn .arrow { color: var(--violet-2); }
+
+    .avatar-wrap {
+      justify-self: center;
+      width: min(100%, 350px);
+      aspect-ratio: 1;
+      position: relative;
+      display: grid;
+      place-items: center;
+    }
+    .avatar-wrap::before,
+    .avatar-wrap::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .avatar-wrap::before {
+      inset: 4%;
+      border: 1px solid rgba(167,139,250,.38);
+      box-shadow: 0 0 55px rgba(124,58,237,.16), inset 0 0 45px rgba(124,58,237,.07);
+    }
+    .avatar-wrap::after {
+      inset: 17%;
+      background: rgba(124,58,237,.11);
+      filter: blur(42px);
+    }
+    .avatar {
+      width: 91%;
+      aspect-ratio: 1;
+      position: relative;
+      z-index: 2;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.09);
+      box-shadow: 0 22px 70px rgba(0,0,0,.48);
+    }
+
+    .explorer {
+      padding: 0 58px 48px;
+    }
+
+    .commands {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .command {
+      border: 1px solid var(--line);
+      background: #0c0c11;
+      color: #8f8f9c;
+      min-height: 52px;
+      padding: 0 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: .18s ease;
+    }
+    .command:hover { color: #d9d9e1; border-color: #3b3b49; }
+    .command[aria-selected="true"] {
+      color: white;
+      border-color: rgba(139,92,246,.42);
+      background: linear-gradient(180deg, rgba(139,92,246,.10), rgba(139,92,246,.035));
+      box-shadow: inset 0 0 0 1px rgba(139,92,246,.04);
+    }
+    .command .slash { color: var(--violet-2); }
+
+    .hint { margin: 0 0 14px 2px; color: #555562; font-size: 10px; text-transform: lowercase; }
+
+    .panel {
+      display: none;
+      border-top: 1px solid var(--line-soft);
+      padding-top: 20px;
+    }
+    .panel.active { display: block; animation: fade .2s ease; }
+    @keyframes fade { from { opacity: .35; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      min-height: 164px;
+      padding: 18px;
+      border: 1px solid var(--line-soft);
+      border-radius: 15px;
+      background: linear-gradient(180deg, rgba(255,255,255,.022), rgba(255,255,255,.009));
+      position: relative;
+      overflow: hidden;
+    }
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      right: -55px;
+      top: -55px;
+      border-radius: 50%;
+      background: rgba(124,58,237,.08);
+      filter: blur(2px);
+    }
+    .num { color: var(--violet-2); font-size: 11px; margin-bottom: 16px; }
+    .card h2 { margin: 0 0 9px; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 20px; letter-spacing: -.025em; }
+    .card p { margin: 0 0 16px; color: #9696a3; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; line-height: 1.48; }
+    .tech { color: #6f6f7b; font-size: 10px; }
+    .demo { display: inline-block; margin-top: 14px; color: #c7b9ff; text-decoration: none; font-size: 11px; }
+    .demo:hover { text-decoration: underline; }
+
+    .timeline, .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .entry, .stack-card {
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      padding: 18px;
+      background: rgba(255,255,255,.012);
+    }
+    .entry .date, .stack-card .label { color: var(--violet-2); font-size: 10px; margin-bottom: 10px; }
+    .entry h3, .stack-card h3 { margin: 0 0 8px; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 17px; }
+    .entry p, .stack-card p { margin: 0; color: #9393a0; font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 13px; line-height: 1.5; }
+
+    footer {
+      width: min(1180px, calc(100% - 40px));
+      margin: 14px auto 26px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: #5d5d69;
+      font-size: 10px;
+    }
+    footer a { color: #858591; text-decoration: none; }
+    footer a:hover { color: var(--violet-2); }
+
+    @media (max-width: 850px) {
+      .shell { width: min(100% - 22px, 680px); padding-top: 11px; }
+      .terminal { border-radius: 16px; }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 38px 24px 20px; }
+      .avatar-wrap { width: 230px; order: -1; }
+      .cmd { margin-bottom: 20px; }
+      .explorer { padding: 0 24px 30px; }
+      .project-grid, .timeline, .stack-grid { grid-template-columns: 1fr; }
+      .commands { grid-template-columns: 1fr; }
+      .command { min-height: 44px; }
+      footer { width: calc(100% - 28px); flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .topbar { padding: 0 13px; }
+      .brand { font-size: 11px; }
+      .status { font-size: 9px; padding: 6px 8px; }
+      .hero { padding-inline: 18px; }
+      .explorer { padding-inline: 18px; }
+      h1 { font-size: 43px; }
+      .actions { align-items: stretch; }
+      .btn.primary { flex: 1 0 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="terminal" aria-label="Portfolio de Miguel Caraballo">
+      <div class="topbar">
+        <div class="brand"><span class="prompt">miguel@portfolio</span>:~</div>
+        <div class="status">open_to_work</div>
+      </div>
+
+      <div class="hero">
+        <div>
+          <div class="cmd"><span class="user">miguel@dev</span>:~<span class="dollar">$</span>./introduce.sh</div>
+          <p class="role">SOFTWARE DEVELOPER JR.</p>
+          <h1>Miguel Caraballo</h1>
+          <p class="lead">Construyo soluciones backend y productos con foco en reglas de negocio, calidad, automatización y arquitectura mantenible.</p>
+
+          <div class="facts" aria-label="Información profesional">
+            <div><span>focus:</span><strong>Java · Python · AI Agents</strong></div>
+            <div><span>location:</span><strong>Banfield, Buenos Aires</strong></div>
+            <div><span>education:</span><strong>Lic. en Sistemas · TFI en curso</strong></div>
+          </div>
+
+          <div class="actions">
+            <a class="btn primary" href="mailto:mxcf98@gmail.com">contactar <span>↗</span></a>
+            <a class="btn" href="https://github.com/Miguelecf" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Miguel Caraballo, abre en una pestaña nueva">github <span class="arrow">↗</span></a>
+            <a class="btn" href="https://www.linkedin.com/in/miguel-caraballo-/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Miguel Caraballo, abre en una pestaña nueva">linkedin <span class="arrow">↗</span></a>
+          </div>
+        </div>
+
+        <div class="avatar-wrap" aria-hidden="true">
+          <img class="avatar" src="assets/migecf-mask.jpeg" alt="" />
+        </div>
+      </div>
+
+      <div class="explorer">
+        <div class="commands" role="tablist" aria-label="Secciones del portfolio">
+          <button class="command" role="tab" aria-selected="true" aria-controls="projects" id="tab-projects" data-tab="projects"><span class="slash">./</span>projects</button>
+          <button class="command" role="tab" aria-selected="false" aria-controls="experience" id="tab-experience" data-tab="experience"><span class="slash">./</span>experience</button>
+          <button class="command" role="tab" aria-selected="false" aria-controls="stack" id="tab-stack" data-tab="stack"><span class="slash">./</span>stack</button>
+        </div>
+        <p class="hint">click para explorar</p>
+
+        <section class="panel active" id="projects" role="tabpanel" aria-labelledby="tab-projects">
+          <div class="project-grid">
+            <article class="card">
+              <div class="num">01</div>
+              <h2>ElGordo IA</h2>
+              <p>Harness de orquestación para desarrollo asistido por IA.</p>
+              <div class="tech">Go · OpenCode · CI/CD</div>
+            </article>
+
+            <article class="card">
+              <div class="num">02</div>
+              <h2>Gestión de Eventos</h2>
+              <p>MVP full stack para solicitudes, disponibilidad y conflictos.</p>
+              <div class="tech">Spring Boot · React · MySQL</div>
+            </article>
+
+            <article class="card">
+              <div class="num">03</div>
+              <h2>Project Pet</h2>
+              <p>Gestión de facturas, pagos, vencimientos e ingresos.</p>
+              <a class="demo" href="https://project-pet-alpha.vercel.app/" target="_blank" rel="noopener noreferrer">ver demo ↗</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel" id="experience" role="tabpanel" aria-labelledby="tab-experience" hidden>
+          <div class="timeline">
+            <article class="entry">
+              <div class="date">2023 — 2024</div>
+              <h3>Backend Developer · UNLa</h3>
+              <p>Diseño de APIs REST, modelado de datos y desarrollo backend con Java y Spring Boot dentro de prácticas profesionales.</p>
+            </article>
+            <article class="entry">
+              <div class="date">ACTUAL</div>
+              <h3>Producto & digitalización</h3>
+              <p>Construcción de herramientas y flujos digitales orientados a problemas operativos reales, desde la idea hasta el producto usable.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel" id="stack" role="tabpanel" aria-labelledby="tab-stack" hidden>
+          <div class="stack-grid">
+            <article class="stack-card">
+              <div class="label">CORE</div>
+              <h3>Java · Python · SQL</h3>
+              <p>Spring Boot, FastAPI, APIs REST, modelado relacional y lógica de negocio.</p>
+            </article>
+            <article class="stack-card">
+              <div class="label">PRODUCT</div>
+              <h3>React · PostgreSQL · MySQL</h3>
+              <p>Productos full stack, interfaces funcionales y persistencia pensada desde el dominio.</p>
+            </article>
+            <article class="stack-card">
+              <div class="label">TOOLING</div>
+              <h3>Git · Docker · Linux</h3>
+              <p>Postman, Swagger/OpenAPI, automatización y despliegues simples orientados a producto.</p>
+            </article>
+            <article class="stack-card">
+              <div class="label">AI</div>
+              <h3>Agents · OpenCode</h3>
+              <p>Orquestación de agentes, workflows de desarrollo y experimentación con LLMs aplicada a ingeniería.</p>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Miguel Caraballo</span>
+    <a href="mailto:mxcf98@gmail.com">mxcf98@gmail.com</a>
+  </footer>
+
+  <script>
+    const tabs = [...document.querySelectorAll('[data-tab]')];
+    const panels = [...document.querySelectorAll('.panel')];
+
+    function activate(name) {
+      tabs.forEach((tab) => {
+        const active = tab.dataset.tab === name;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+
+      panels.forEach((panel) => {
+        const active = panel.id === name;
+        panel.classList.toggle('active', active);
+        panel.hidden = !active;
+      });
+    }
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(tab.dataset.tab));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+        event.preventDefault();
+        const dir = event.key === 'ArrowRight' ? 1 : -1;
+        const next = tabs[(index + dir + tabs.length) % tabs.length];
+        activate(next.dataset.tab);
+        next.focus();
+      });
+    });
+  </script>
+</body>
+</html>
